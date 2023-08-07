@@ -1,0 +1,25 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.inputGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.inputGroup input {
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+}
+
+.form label {
+	font-weight: bold;
+}
+
+.form button {
+	width: 8rem;
+	align-self: left;
+}

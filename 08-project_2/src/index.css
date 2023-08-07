@@ -1,0 +1,12 @@
+:root{
+	--main-color: #501a83;
+}
+
+html{
+	font-family: 'Roboto', sans-serif;
+}
+
+body {
+	margin: 0;
+	background: black;
+}

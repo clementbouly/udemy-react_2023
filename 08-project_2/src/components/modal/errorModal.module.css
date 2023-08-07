@@ -1,0 +1,43 @@
+.backdrop {
+	background: rgba(0, 0, 0, 0.95);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	cursor: pointer;
+}
+
+.modal {
+	background: white;
+	padding: 0;
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, -30%);
+	width: min(90%, 40rem);
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.modalContent {
+	display: flex;
+	flex-direction: column;
+}
+
+.modalContent h2 {
+	background-color: var(--main-color);
+	color: white;
+	margin: 0;
+	padding: 1rem;
+}
+
+.modalContent p {
+	padding: 1rem 2rem;
+}
+
+.modalContent button {
+	width: 5rem;
+	align-self: flex-end;
+	margin: 1rem 2rem;
+}
