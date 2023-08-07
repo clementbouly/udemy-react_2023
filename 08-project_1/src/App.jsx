@@ -21,15 +21,15 @@ function App() {
 		setInvestmentData(investmentData)
 	}
 
-	const calculateInvestment = (formData) => {
-		if (!formData) return
+	const calculateInvestment = (data) => {
+		if (!data) return
 
 		const yearlyData = [] // per-year results
 
-		let currentSavings = Number(formData.currentSavings)
-		const yearlyContribution = Number(formData.yearlyContribution)
-		const expectedReturn = Number(formData.expectedReturn) / 100
-		const duration = Number(formData.duration)
+		let currentSavings = Number(data.currentSavings)
+		const yearlyContribution = Number(data.yearlyContribution)
+		const expectedReturn = Number(data.expectedReturn) / 100
+		const duration = Number(data.duration)
 
 		// The below code calculates yearly results (total savings, interest etc)
 		for (let i = 0; i < duration; i++) {
