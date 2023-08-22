@@ -14,3 +14,9 @@
 .main-header h1 {
   color: white;
 }
+
+.dark{
+  background: black;
+  border-color: black;
+  color: white;
+}

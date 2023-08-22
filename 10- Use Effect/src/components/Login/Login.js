@@ -1,58 +1,41 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useReducer } from "react"
 
+import { AuthContext } from "../../App"
 import Button from "../UI/Button/Button"
 import Card from "../UI/Card/Card"
 import classes from "./Login.module.css"
+import { INITIAL_STATE, LOGIN_ACTION_TYPE, loginReducer } from "./loginReducer"
 
 const Login = (props) => {
-	const [enteredEmail, setEnteredEmail] = useState("test@test.com")
-	const [emailIsValid, setEmailIsValid] = useState()
-	const [enteredPassword, setEnteredPassword] = useState("12345678")
-	const [passwordIsValid, setPasswordIsValid] = useState()
-	const [formIsValid, setFormIsValid] = useState(true)
+	const [state, dispatch] = useReducer(loginReducer, INITIAL_STATE)
+	const { email, password, formIsValid, emailIsValid, passwordIsValid, formValidityPending } = state
+	const { onLogin } = useContext(AuthContext)
 
 	useEffect(() => {
-		console.log("EFFECT RUNNING")
 		// wait for user to stop typing
 		const identifier = setTimeout(() => {
-			console.log("Checking form validity!")
-			validateForm(enteredEmail, enteredPassword)
+			dispatch({ type: LOGIN_ACTION_TYPE.FORM_VALIDITY_CHECK })
+			dispatch({ type: LOGIN_ACTION_TYPE.FORM_VALIDITY_PENDING, value: false })
 		}, 500)
 
 		// clean up function
 		return () => {
-			console.log("CLEANUP")
 			clearTimeout(identifier)
+			dispatch({ type: LOGIN_ACTION_TYPE.FORM_VALIDITY_PENDING, value: true })
 		}
-	}, [enteredEmail, enteredPassword])
+	}, [email, password])
 
-	const validateForm = (email, password) => {
-		if (email.includes("@") && password.trim().length > 6) {
-			setFormIsValid(true)
-			return
-		}
-		setFormIsValid(false)
+	const inputChangeHandler = (event) => {
+		dispatch({ type: LOGIN_ACTION_TYPE.USER_INPUT, id: event.target.id, value: event.target.value })
 	}
 
-	const emailChangeHandler = (event) => {
-		setEnteredEmail(event.target.value)
-	}
-
-	const passwordChangeHandler = (event) => {
-		setEnteredPassword(event.target.value)
-	}
-
-	const validateEmailHandler = () => {
-		setEmailIsValid(enteredEmail.includes("@"))
-	}
-
-	const validatePasswordHandler = () => {
-		setPasswordIsValid(enteredPassword.trim().length > 6)
+	const validateInputHandler = (event) => {
+		dispatch({ type: LOGIN_ACTION_TYPE.VALIDATE_USER_INPUT, id: event.target.id, value: event.target.value })
 	}
 
 	const submitHandler = (event) => {
 		event.preventDefault()
-		props.onLogin(enteredEmail, enteredPassword)
+		onLogin(email, password)
 	}
 
 	return (
@@ -60,14 +43,26 @@ const Login = (props) => {
 			<form onSubmit={submitHandler}>
 				<div className={`${classes.control} ${emailIsValid === false ? classes.invalid : ""}`}>
 					<label htmlFor="email">E-Mail</label>
-					<input type="email" id="email" value={enteredEmail} onChange={emailChangeHandler} onBlur={validateEmailHandler} />
+					<input
+						type="email"
+						id="email"
+						value={email}
+						onInput={inputChangeHandler}
+						onBlur={validateInputHandler}
+					/>
 				</div>
 				<div className={`${classes.control} ${passwordIsValid === false ? classes.invalid : ""}`}>
 					<label htmlFor="password">Password</label>
-					<input type="password" id="password" value={enteredPassword} onChange={passwordChangeHandler} onBlur={validatePasswordHandler} />
+					<input
+						type="password"
+						id="password"
+						value={password}
+						onInput={inputChangeHandler}
+						onBlur={validateInputHandler}
+					/>
 				</div>
 				<div className={classes.actions}>
-					<Button type="submit" className={classes.btn} disabled={!formIsValid}>
+					<Button type="submit" className={classes.btn} disabled={!formIsValid || formValidityPending}>
 						Login
 					</Button>
 				</div>

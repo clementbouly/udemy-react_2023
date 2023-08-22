@@ -9,6 +9,16 @@
   border-radius: 30px;
 }
 
+.dark {
+  background: black;
+  border-color: black;
+  color: white;
+}
+
+.dark:hover {
+  background: grey!important;
+}
+
 .button:hover,
 .button:active {
   background: #741188;

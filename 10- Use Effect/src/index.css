@@ -1,16 +1,22 @@
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+:root {
+	--background-color: #fff;
+	--text-color: #000;
 }
 
 html {
-  font-family: sans-serif;
-  background: #fff;
+	font-family: sans-serif;
+	background: var(--background-color);
+	color: var(--text-color);
 }
 
 body {
-  margin: 0;
+	margin: 0;
 }
 
 main {
-  margin-top: 6rem;
+	margin-top: 6rem;
 }
