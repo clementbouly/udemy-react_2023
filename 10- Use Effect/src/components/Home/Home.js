@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 
-import { AuthContext, ThemeContext } from "../../App"
+import { ThemeContext } from "../../App"
+import { AuthContext } from "../../store/auth-context"
 import Button from "../UI/Button/Button"
 import Card from "../UI/Card/Card"
 import classes from "./Home.module.css"

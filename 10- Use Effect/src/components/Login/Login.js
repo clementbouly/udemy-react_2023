@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer } from "react"
 
-import { AuthContext } from "../../App"
+import { AuthContext } from "../../store/auth-context"
 import Button from "../UI/Button/Button"
 import Card from "../UI/Card/Card"
 import classes from "./Login.module.css"

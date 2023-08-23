@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
-import { AuthContext, ThemeContext } from '../../App';
+import { ThemeContext } from '../../App';
+import { AuthContext } from '../../store/auth-context';
 import classes from './MainHeader.module.css';
 import Navigation from './Navigation';
 
