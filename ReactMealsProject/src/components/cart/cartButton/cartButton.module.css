@@ -1,0 +1,37 @@
+.cartButton {
+	cursor: pointer;
+	font: inherit;
+	border: none;
+	background-color: #4d1601;
+	color: white;
+	padding: 0.75rem 6rem;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+    gap: 1.5rem;
+	border-radius: 25px;
+	font-weight: bold;
+
+    &:hover{
+        background-color: #712202;
+    }
+}
+
+.cartButton img{
+    height: 2rem;
+}
+
+.cartItemNumber{
+    background-color: #862f0c;
+    color: white;
+    border-radius: 50%;
+    padding: 0.25rem 1rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+@media (width <= 768px) {
+    .cartButton {
+        padding: 0.75rem 3rem;
+    }
+}

@@ -1,0 +1,17 @@
+.meals__summary{
+    background-color: #3a4750;
+    width: min(50rem, 80%);
+    margin: 0 auto;
+    padding: 4rem 3rem;
+    border-radius: 1rem;
+    position: relative;
+    margin-top: -15rem;
+    margin-bottom: 5rem;
+    box-shadow: 0 1px 18px rgba(0, 0, 0, 0.25);
+}
+
+.meals__summary h1{
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
