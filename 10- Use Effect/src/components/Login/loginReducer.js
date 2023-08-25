@@ -1,16 +1,18 @@
-export const LOGIN_ACTION_TYPE =  {
-    USER_INPUT: "USER_INPUT",
-    VALIDATE_USER_INPUT: "VALIDATE_USER_INPUT",
-    FORM_VALIDITY_CHECK: "FORM_VALIDITY_CHECK",
-    FORM_VALIDITY_PENDING: "FORM_VALIDITY_PENDING",
+export const LOGIN_ACTION_TYPE = {
+	USER_INPUT: "USER_INPUT",
+	VALIDATE_USER_INPUT: "VALIDATE_USER_INPUT",
+	FORM_VALIDITY_CHECK: "FORM_VALIDITY_CHECK",
+	FORM_VALIDITY_PENDING: "FORM_VALIDITY_PENDING",
 }
 
 export const INITIAL_STATE = {
 	email: "",
 	password: "",
+	username: "",
 	formIsValid: false,
 	emailIsValid: null,
 	passwordIsValid: null,
+	usernameIsValid: null,
 	formValidityPending: false,
 }
 
@@ -30,6 +32,7 @@ export const loginReducer = (state, action) => {
 		case LOGIN_ACTION_TYPE.VALIDATE_USER_INPUT: {
 			const emailIsValid = isEmailValid(state.email)
 			const passwordIsValid = state.password.trim().length > 6
+			const usernameIsValid = state.username.trim().length > 3
 
 			switch (action.id) {
 				case "email":
@@ -42,6 +45,11 @@ export const loginReducer = (state, action) => {
 						...state,
 						passwordIsValid,
 					}
+				case "username":
+					return {
+						...state,
+						usernameIsValid,
+					}
 				default:
 					return state
 			}
@@ -49,9 +57,10 @@ export const loginReducer = (state, action) => {
 		case LOGIN_ACTION_TYPE.FORM_VALIDITY_CHECK:
 			const emailIsValid = isEmailValid(state.email)
 			const passwordIsValid = state.password.trim().length > 6
+			const usernameIsValid = state.username.trim().length > 3
 			return {
 				...state,
-				formIsValid: emailIsValid && passwordIsValid,
+				formIsValid: emailIsValid && passwordIsValid && usernameIsValid,
 			}
 		case LOGIN_ACTION_TYPE.FORM_VALIDITY_PENDING:
 			return {
