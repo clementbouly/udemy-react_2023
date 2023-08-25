@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from "react"
+import React, { useContext, useEffect, useReducer, useRef } from "react"
 
 import { AuthContext } from "../../store/auth-context"
 import Button from "../UI/Button/Button"
@@ -20,6 +20,9 @@ const Login = (props) => {
 		formValidityPending,
 	} = state
 	const { onLogin } = useContext(AuthContext)
+	const emailInputRef = useRef()
+	const passwordInputRef = useRef()
+	const usernameInputRef = useRef()
 
 	useEffect(() => {
 		// wait for user to stop typing
@@ -44,8 +47,20 @@ const Login = (props) => {
 	}
 
 	const submitHandler = (event) => {
-		console.log(email, username, password);
 		event.preventDefault()
+		if (!emailIsValid) {
+			emailInputRef.current.focus()
+			return
+		}
+		if (!usernameIsValid) {
+			usernameInputRef.current.focus()
+			return
+		}
+		if (!passwordIsValid) {
+			passwordInputRef.current.focus()
+			return
+		}
+
 		onLogin(email, password)
 	}
 
@@ -60,6 +75,7 @@ const Login = (props) => {
 					value={email}
 					onInput={inputChangeHandler}
 					onBlur={validateInputHandler}
+					ref={emailInputRef}
 				/>
 				<Input
 					label="Username"
@@ -69,6 +85,7 @@ const Login = (props) => {
 					value={username}
 					onInput={inputChangeHandler}
 					onBlur={validateInputHandler}
+					ref={usernameInputRef}
 				/>
 				<Input
 					label="Password"
@@ -78,9 +95,14 @@ const Login = (props) => {
 					value={password}
 					onInput={inputChangeHandler}
 					onBlur={validateInputHandler}
+					ref={passwordInputRef}
 				/>
 				<div className={classes.actions}>
-					<Button type="submit" className={classes.btn} disabled={!formIsValid || formValidityPending}>
+					<Button
+						type="submit"
+						className={classes.btn}
+						// disabled={!formIsValid || formValidityPending}
+					>
 						Login
 					</Button>
 				</div>
