@@ -39,16 +39,16 @@
 }
 
 .mealItem button {
+	font-size: 1.8rem;
 	cursor: pointer;
 	background-color: #8a2b06;
 	border: 1px solid #8a2b06;
 	color: white;
-	padding: 0.25rem 2rem;
+	padding: 0.25rem 3rem;
 	border-radius: 25px;
 	font-weight: bold;
 
 	&:hover {
 		background-color: #641e03;
-		border-color: #641e03;
 	}
 }

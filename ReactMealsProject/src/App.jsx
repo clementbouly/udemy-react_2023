@@ -9,7 +9,7 @@ function App() {
 			<Header />
 			<div className={classes.background__image}></div>
 			<MealsSummary />
-      <MealItemsList />
+			<MealItemsList />
 		</>
 	)
 }
