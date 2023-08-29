@@ -6,15 +6,13 @@ export const ADD_ITEM = "ADD_ITEM"
 export const REMOVE_ITEM = "REMOVE_ITEM"
 export const CLEAR_CART = "CLEAR_CART"
 
-export const CartContext = createContext(
-	{
-		showCart: false,
-		cartItems: [],
-		cartItemsCount: 0,
-		cartTotal: 0,
-		dispatch: () => {},
-	}
-)
+export const CartContext = createContext({
+	showCart: false,
+	cartItems: [],
+	cartItemsCount: 0,
+	cartTotal: 0,
+	dispatch: () => {},
+})
 
 const initialState = {
 	showCart: false,
@@ -26,6 +24,7 @@ const initialState = {
 const cartReducer = (state, action) => {
 	switch (action.type) {
 		case TOGGLE_SHOW_CART:
+			if (state.cartItemsCount === 0) return state
 			return { ...state, showCart: !state.showCart }
 		case ADD_ITEM:
 			// Check if item already exists in cart

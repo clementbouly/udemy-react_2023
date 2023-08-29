@@ -10,6 +10,7 @@ const MealItem = ({ meal }) => {
 	
 	const handleAddToCart = (e) => {
 		e.preventDefault()
+		if (!inputRef.current.value) return
 		const mealAmount = +inputRef.current.value
 		dispatch({ type: ADD_ITEM, payload: { item: meal, amount: mealAmount } })
 	}

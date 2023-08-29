@@ -17,6 +17,7 @@ const Modal = ({ children }) => {
 		</>
 	)
 
+
 	if (showCart) return createPortal(modal, document.body)
 }
 
