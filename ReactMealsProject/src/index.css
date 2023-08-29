@@ -13,8 +13,13 @@ body {
 	font-size: 2rem;
 	margin: 0;
 	background-color: #303841;
-	/* #3a4750 */
 	color: white;
+}
+
+@media (width < 1024px) {
+	html {
+		font-size: 55%;
+	}
 }
 
 @media (width < 768px) {

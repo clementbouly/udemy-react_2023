@@ -26,6 +26,7 @@
 .mealItem label {
 	font-weight: 700;
 	font-size: 1.7rem;
+	cursor: pointer;
 }
 
 .mealItem input {

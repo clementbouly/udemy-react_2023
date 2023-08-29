@@ -16,3 +16,18 @@ header h1{
     margin: 0;
 }
 
+.background__image {
+	background-image: url("/src/assets/meals.jpg");
+	background-size: cover;
+	background-position: center;
+	height: 40rem;
+	clip-path: polygon(100% 0, 100% 75%, 5% 100%, 0 100%, 0 0);
+}
+
+@media (width < 800px) {
+	.background__image {
+		height: 28rem;
+    clip-path: none;
+
+	}
+}

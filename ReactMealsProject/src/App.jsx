@@ -1,15 +1,16 @@
-import classes from "./App.module.css"
 import Header from "./components/header/header.component"
 import MealItemsList from "./components/meals-itemsList/mealItemsList.component"
 import MealsSummary from "./components/meals-summary/mealsSummary.component"
+import { CartContextProvider } from "./store/cart.context"
 
 function App() {
 	return (
 		<>
-			<Header />
-			<div className={classes.background__image}></div>
-			<MealsSummary />
-			<MealItemsList />
+			<CartContextProvider>
+				<Header />
+				<MealsSummary />
+				<MealItemsList />
+			</CartContextProvider>
 		</>
 	)
 }
