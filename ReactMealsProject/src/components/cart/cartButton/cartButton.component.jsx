@@ -12,6 +12,7 @@ const CartButton = () => {
 		dispatch({ type: TOGGLE_SHOW_CART})
 	}
 
+
 	useEffect(() => {
 		if (cartItemsCount === 0) return
 		setAnimateCount(true)
