@@ -1,11 +1,11 @@
-import { DUMMY_MEALS } from "../../data/dummy-meals"
-import MealItem from "./meal-item/mealItem.component"
-import classes from "./mealItemsList.module.css"
+import { DUMMY_MEALS } from "../../data/dummy-meals";
+import MealItem from "./meal-item/mealItem.component";
+import classes from "./mealItemsList.module.css";
 
-const MealItemsList = () => {
+const MealItemsList = (props) => {
 	const meals = DUMMY_MEALS
 	return (
-		<section className={classes.meals__container}>
+		<section className={`${classes.meals__container} ${classes[props.animationClass]}` }>
 			<ul>
 				{meals.map((meal) => (
 					<MealItem
