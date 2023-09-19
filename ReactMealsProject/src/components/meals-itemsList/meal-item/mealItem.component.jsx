@@ -24,10 +24,10 @@ const MealItem = ({ meal }) => {
 				<h4 className={classes.description}>{meal.description}</h4>
 				<p className={classes.price}>{priceFormatted}</p>
 			</div>
-			<form className={classes.actions} onSubmit={handleAddToCart}>
+			<form  className={classes.actions} onSubmit={handleAddToCart}>
 				<label>
 					Amount
-					<input type="number" min="1" max="5" defaultValue="1" ref={inputRef} />
+					<input name={`itemNumber-${meal.id}`} type="number" min="1" max="5" defaultValue="1" ref={inputRef} />
 				</label>
 				<button type="submit">+ Add</button>
 			</form>
