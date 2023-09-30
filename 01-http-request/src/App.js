@@ -1,34 +1,50 @@
 import React from "react"
 
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { queryClient } from "."
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import "./App.css"
 import { addMovie, deleteMovie, getMovies } from "./api/movie-api"
 import AddMovie from "./components/AddMovie"
 import MoviesList from "./components/MoviesList"
 
 function App() {
-	const { isLoading, isError, error, data: movies } = useQuery(["movies"], getMovies)
+	const moviesQueryKey = "movies"
+	const { isLoading, isFetching, isError, error, data, refetch } = useQuery([moviesQueryKey], getMovies, {
+		staleTime: 60_000,
+	})
+	const movies = data || []
 
-	console.log({ isError })
-
+	const queryClient = useQueryClient()
 	const mutationAddMovie = useMutation({
 		mutationFn: addMovie,
-		onSuccess: () => {
-			queryClient.invalidateQueries("movies")
+		onSuccess: (movieResponse) => {
+			const newMovie = {
+				id: movieResponse.name,
+				...mutationAddMovie.variables,
+			}
+			queryClient.setQueriesData(moviesQueryKey, (oldData) => [...oldData, newMovie])
+			// queryClient.invalidateQueries(moviesQueryKey)
 		},
 	})
 
 	const mutationDeleteMovie = useMutation({
 		mutationFn: deleteMovie,
+		onMutate: (id) => {
+			const movieToDelete = queryClient.getQueryData([moviesQueryKey]).find((movie) => movie.id === id)
+			queryClient.setQueriesData(moviesQueryKey, (oldData) => oldData.filter((movie) => movie.id !== id))
+			return { movieToDelete }
+		},
+		onError: (error, id, context) => {
+			console.log("context : ", context)
+			queryClient.setQueriesData(moviesQueryKey, (oldData) => [...oldData, context.movieToDelete])
+		},
+
 		onSuccess: () => {
-			queryClient.invalidateQueries("movies")
+			queryClient.invalidateQueries(moviesQueryKey)
 		},
 	})
 
 	let content = <MoviesList movies={movies} onDeleteMovie={mutationDeleteMovie.mutate} />
-
-	if (isLoading) {
+	if (isFetching && isLoading) {
 		content = <span>Loading...</span>
 	}
 
@@ -59,7 +75,7 @@ function App() {
 				<AddMovie onAddMovie={mutationAddMovie.mutate} />
 			</section>
 			<section>
-				<button>Fetch Movies</button>
+				<button onClick={refetch}>Fetch Movies</button>
 			</section>
 
 			<section>{content}</section>

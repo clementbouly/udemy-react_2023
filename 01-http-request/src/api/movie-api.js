@@ -6,9 +6,14 @@ export const getMovies = () => {
 			if (!response.ok) {
 				throw new Error("Error fetching movies")
 			}
+
 			return response.json()
 		})
 		.then((data) => {
+			if (!data) {
+				return []
+			}
+
 			const transformedMovies = Object.entries(data).map(([key, value]) => {
 				return {
 					id: key,
@@ -52,7 +57,7 @@ export const addMovie = (movie) => {
 			return response.json()
 		})
 		.catch((error) => {
-			console.log("Error in addMovie : ", error);
+			console.log("Error in addMovie : ", error)
 			throw error
 		})
 }
