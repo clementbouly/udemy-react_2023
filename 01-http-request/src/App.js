@@ -9,7 +9,7 @@ import MoviesList from "./components/MoviesList"
 function App() {
 	const moviesQueryKey = "movies"
 	const { isLoading, isFetching, isError, error, data, refetch } = useQuery([moviesQueryKey], getMovies, {
-		staleTime: 60_000,
+		staleTime: 300,
 	})
 	const movies = data || []
 
