@@ -11,5 +11,10 @@ export function useIncrement(initial = 0) {
 		setValue((v) => v - 1)
 	}
 
-	return [value, increment, decrement]
+	return {
+		value,
+		increment,
+		decrement,
+		initial,
+	}
 }
