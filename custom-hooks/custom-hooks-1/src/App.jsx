@@ -5,6 +5,22 @@ import { useFetch } from "./hooks/useFetch"
 import { useIncrement } from "./hooks/useIncrement"
 import { useToggle } from "./hooks/useToggle"
 
+function RedWrapper({ test, children }) {
+	return (
+		<>
+			<div
+				style={{
+					backgroundColor: "red",
+					width: "100px",
+					height: "100px",
+				}}
+			>
+				{test} {children}
+			</div>
+		</>
+	)
+}
+
 function App() {
 	const [checked, toggleCheck] = useToggle()
 	const { value: count, increment, decrement, initial } = useIncrement(5)
@@ -55,6 +71,10 @@ function App() {
 	return (
 		<>
 			<main className="container">
+				<article>
+					<RedWrapper test="test">Children Test</RedWrapper>
+				</article>
+
 				<article>
 					<h1>Custom Hooks</h1>
 					<section>
