@@ -27,12 +27,6 @@ function App() {
 	const [name, setName] = useState("")
 	const { loading, data, error } = useFetch("https://jsonplaceholder.typicode.com/posts?_limit=5&_delay=4000")
 
-	console.log({
-		loading,
-		data,
-		error,
-	})
-
 	const onSubmit = (event) => {
 		event.preventDefault()
 		console.log("onSubmit", checked, count)
