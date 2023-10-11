@@ -100,3 +100,11 @@ button:active {
 .error-text {
   color: #b40e0e;
 }
+
+.on{
+  background-color: green;
+}
+
+.off{
+  background-color: red;
+}
