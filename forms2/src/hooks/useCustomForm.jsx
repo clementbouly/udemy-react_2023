@@ -14,7 +14,7 @@ export const useCustomForm = (initialState) => {
 			debounce = setTimeout(() => {
 				setIsFormValid(allFieldsValid)
 				setCheckingValidity(false)
-			}, 1000)
+			}, 500)
 		}
 
 		return () => {
@@ -41,21 +41,55 @@ export const useCustomForm = (initialState) => {
 			case "email":
 				;({ isValid, errorText } = isEmailValid(value))
 				break
+			case "select-one":
+				isValid = true
+				errorText = ""
+				break
+			case "checkbox":
+				isValid = true
+				errorText = ""
+				break
 			default:
 				break
 		}
 
-		setValues((prevState) => {
-			return {
-				...prevState,
-				[event.target.id]: {
-					...prevState[event.target.id],
-					isValid: isValid,
-					value: value,
-					errorText: errorText,
-				},
-			}
-		})
+		if (event.target.name === "findUs") {
+			const findUs = values.findUs.value
+			const checkboxesValue = findUs.map((item) => {
+				if (item.id === event.target.id) {
+					return {
+						...item,
+						checked: event.target.checked,
+					}
+				}
+				return item
+			})
+
+			setValues((prevState) => {
+				return {
+					...prevState,
+					[event.target.name]: {
+						...prevState[event.target.name],
+						isValid,
+						value: checkboxesValue,
+						errorText,
+					},
+				}
+			})
+		} else {
+			setValues((prevState) => {
+				return {
+					...prevState,
+					[event.target.id]: {
+						...prevState[event.target.id],
+						isValid,
+						value,
+						errorText,
+					},
+				}
+			})
+		}
+
 		setIsFormDirty(true)
 	}
 
@@ -119,6 +153,6 @@ export const useCustomForm = (initialState) => {
 		checkingValidity,
 		isFormValid,
 		setIsFormDirty,
-        canShowErrorText,
+		canShowErrorText,
 	}
 }

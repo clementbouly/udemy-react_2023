@@ -2,13 +2,59 @@ import { useCustomForm } from "../hooks/useCustomForm"
 
 const INITIAL_STATE = {
 	email: {
-		value: "",
-		isValid: false,
+		value: "john.doe@example.com",
+		isValid: true,
 		errorText: "",
 	},
 	password: {
-		value: "",
-		isValid: false,
+		value: "password123",
+		isValid: true,
+		errorText: "",
+	},
+	passwordConfirm: {
+		value: "password123",
+		isValid: true,
+		errorText: "",
+	},
+	firstname: {
+		value: "John",
+		isValid: true,
+		errorText: "",
+	},
+	lastname: {
+		value: "Doe",
+		isValid: true,
+		errorText: "",
+	},
+	role: {
+		value: "admin",
+		isValid: true,
+		errorText: "",
+	},
+	findUs: {
+		value: [
+			{
+				id: "google",
+				checked: false,
+				label: "Google",
+			},
+			{
+				id: "friend",
+				checked: false,
+				label: "Friend",
+			},
+			{
+				id: "other",
+				checked: false,
+				label: "Other",
+			},
+		],
+		isValid: true,
+		errorText: "",
+	},
+	agree: {
+		value: false,
+		isValid: true,
 		errorText: "",
 	},
 }
@@ -27,21 +73,33 @@ export default function Login() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		console.log("Form submitted!", values)
-		resetForm()
+    if (values.password.value !== values.passwordConfirm.value) {
+      alert("Passwords don't match")
+      return
+    }
+
+    if (!values.agree.value) {
+      alert("You must agree to the terms and conditions")
+      return
+    }
+    
+		console.log("Form state!", values)
+
+		// resetForm()
 	}
 
 	return (
 		<form onSubmit={handleSubmit}>
 			<h2>Login</h2>
-
 			<div className="control-row">
-				<div className="control no-margin">
+				<div className="control">
 					<label htmlFor="email">Email</label>
 					<input id="email" type="email" name="email" onChange={handleChange} value={values.email.value} onBlur={() => setIsFormDirty(true)} />
 					{canShowErrorText(values.email.errorText) && <p className="control-error">{values.email.errorText}</p>}
 				</div>
+			</div>
 
+			<div className="control-row">
 				<div className="control no-margin">
 					<label htmlFor="password">Password</label>
 					<input
@@ -54,6 +112,76 @@ export default function Login() {
 					/>
 					{canShowErrorText(values.password.errorText) && <p className="control-error">{values.password.errorText}</p>}
 				</div>
+				<div className="control">
+					<label htmlFor="passwordConfirm">Confirm Password</label>
+					<input
+						id="passwordConfirm"
+						type="password"
+						name="passwordConfirm"
+						onChange={handleChange}
+						value={values.passwordConfirm.value}
+						onBlur={() => setIsFormDirty(true)}
+					/>
+				</div>
+			</div>
+			<br />
+			{/* firstname, lastName in control row */}
+			<div className="control-row">
+				<div className="control">
+					<label htmlFor="firstname">First Name</label>
+					<input
+						id="firstname"
+						type="text"
+						name="firstname"
+						onChange={handleChange}
+						value={values.firstname.value}
+						onBlur={() => setIsFormDirty(true)}
+					/>
+					{canShowErrorText(values.firstname.errorText) && <p className="control-error">{values.firstname.errorText}</p>}
+				</div>
+				<div className="control">
+					<label htmlFor="lastname">Last Name</label>
+					<input
+						id="lastname"
+						type="text"
+						name="lastname"
+						onChange={handleChange}
+						value={values.lastname.value}
+						onBlur={() => setIsFormDirty(true)}
+					/>
+					{canShowErrorText(values.lastname.errorText) && <p className="control-error">{values.lastname.errorText}</p>}
+				</div>
+			</div>
+
+			<div className="control-row">
+				<div className="control">
+					<label htmlFor="role">Role</label>
+					<select id="role" name="role" onChange={handleChange}>
+						<option value="admin">Admin</option>
+						<option value="user">User</option>
+						<option value="other">Other</option>
+					</select>
+				</div>
+			</div>
+
+			<div className="control">
+				<fieldset onChange={handleChange}>
+					<legend>How did you find us ?</legend>
+					{INITIAL_STATE.findUs.value.map((item) => {
+						return (
+							<label key={item.id}>
+								<input type="checkbox" id={item.id} name="findUs" />
+								{item.label}
+							</label>
+						)
+					})}
+				</fieldset>
+			</div>
+
+			<div className="control">
+				<label>
+					<input type="checkbox" id="agree" name="agree" onChange={handleChange} />I agree to the terms and conditions
+				</label>
 			</div>
 
 			<p className="form-actions">
