@@ -1,45 +1,94 @@
+import { useForm } from "react-hook-form"
+
+const INITIAL_STATE = {
+	email: "test@test.com",
+	password: "",
+	passwordConfirm: "",
+	firstname: "",
+	lastname: "",
+	role: "admin",
+	findUs: {
+		google: false,
+		ad: false,
+		other: false,
+	},
+	agree: false,
+}
 
 export default function Login2() {
-	const handleSubmit = (event) => {
-		event.preventDefault()
-	}
+	const { register, handleSubmit, watch, reset, formState : {errors} } = useForm({
+		mode: "onTouched",
+		defaultValues: INITIAL_STATE,
+	})
+	const watchPassword = watch("password")
+
+	const onSubmit = (data) => console.log(data)
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<h2>Login With react hook form</h2>
 			<div className="control-row">
 				<div className="control">
 					<label htmlFor="email">Email</label>
-					<input id="email" type="email" name="email" />
+					<input
+						id="email"
+						type="email"
+						name="email"
+						{...register("email", {
+							required: true,
+							pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+						})}
+					/>
+					{errors.email && <p className="control-error">Please enter a valid email address</p>}
 				</div>
 			</div>
 
 			<div className="control-row">
 				<div className="control no-margin">
 					<label htmlFor="password">Password</label>
-					<input id="password" type="password" name="password" />
+					<input
+						id="password"
+						type="password"
+						name="password"
+						{...register("password", {
+							required: "Password is required",
+							minLength: {
+								value: 3,
+								message: "Password must be at least 3 characters",
+							},
+						})}
+					/>
+					{errors.password && <p className="control-error">{errors.password.message}</p>}
 				</div>
 				<div className="control">
 					<label htmlFor="passwordConfirm">Confirm Password</label>
-					<input id="passwordConfirm" type="password" name="passwordConfirm" />
+					<input
+						id="passwordConfirm"
+						type="password"
+						name="passwordConfirm"
+						{...register("passwordConfirm", {
+							validate: (value) => value === watchPassword || "Passwords do not match",
+						})}
+					/>
+					{errors.passwordConfirm && <p className="control-error">{errors.passwordConfirm.message}</p>}
 				</div>
 			</div>
 			<br />
 			<div className="control-row">
 				<div className="control">
 					<label htmlFor="firstname">First Name</label>
-					<input id="firstname" type="text" name="firstname" />
+					<input id="firstname" type="text" name="firstname" {...register("firstName")} />
 				</div>
 				<div className="control">
 					<label htmlFor="lastname">Last Name</label>
-					<input id="lastname" type="text" name="lastname" />
+					<input id="lastname" type="text" name="lastname" {...register("lastname")} />
 				</div>
 			</div>
 
 			<div className="control-row">
 				<div className="control">
 					<label htmlFor="role">Role</label>
-					<select id="role" name="role">
+					<select id="role" name="role" {...register("role")}>
 						<option value="admin">Admin</option>
 						<option value="user">User</option>
 						<option value="other">Other</option>
@@ -51,22 +100,42 @@ export default function Login2() {
 				<fieldset>
 					<legend>How did you find us ?</legend>
 
-					<label >
-						<input type="checkbox" id="test" name="findUs" />
-						Test
+					<label>
+						<input type="checkbox" id="google" name="findUs" {...register("findUs.google")} />
+						Google
+					</label>
+					<label>
+						<input type="checkbox" id="ad" name="findUs" {...register("findUs.ad")} />
+						Ad
+					</label>
+					<label>
+						<input type="checkbox" id="other" name="findUs" {...register("findUs.other")} />
+						Other
 					</label>
 				</fieldset>
 			</div>
 
 			<div className="control">
 				<label>
-					<input type="checkbox" id="agree" name="agree" />I agree to the terms and conditions
+					<input
+						type="checkbox"
+						id="agree"
+						name="agree"
+						{...register("agreement", {
+							required: "You must agree the terms and conditions",
+						})}
+					/>
+					I agree to the terms and conditions
 				</label>
+				{errors.agreement && <p className="control-error">{errors.agreement.message}</p>}
 			</div>
-
 			<p className="form-actions">
-				<button className="button button-flat">Reset</button>
-				<button className="button">Login</button>
+				<button className="button button-flat" type="button" onClick={() => reset(INITIAL_STATE)}>
+					Reset
+				</button>
+				<button className="button" type="submit">
+					Login
+				</button>
 			</p>
 		</form>
 	)
