@@ -17,12 +17,12 @@ const INITIAL_STATE = {
 		errorText: "",
 	},
 	firstname: {
-		value: "John",
+		value: "",
 		isValid: true,
 		errorText: "",
 	},
 	lastname: {
-		value: "Doe",
+		value: "",
 		isValid: true,
 		errorText: "",
 	},
@@ -73,16 +73,16 @@ export default function Login() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
-    if (values.password.value !== values.passwordConfirm.value) {
-      alert("Passwords don't match")
-      return
-    }
+		if (values.password.value !== values.passwordConfirm.value) {
+			alert("Passwords don't match")
+			return
+		}
 
-    if (!values.agree.value) {
-      alert("You must agree to the terms and conditions")
-      return
-    }
-    
+		if (!values.agree.value) {
+			alert("You must agree to the terms and conditions")
+			return
+		}
+
 		console.log("Form state!", values)
 
 		// resetForm()
@@ -94,8 +94,17 @@ export default function Login() {
 			<div className="control-row">
 				<div className="control">
 					<label htmlFor="email">Email</label>
-					<input id="email" type="email" name="email" onChange={handleChange} value={values.email.value} onBlur={() => setIsFormDirty(true)} />
-					{canShowErrorText(values.email.errorText) && <p className="control-error">{values.email.errorText}</p>}
+					<input
+						id="email"
+						type="email"
+						name="email"
+						onChange={handleChange}
+						value={values.email.value}
+						onBlur={() => setIsFormDirty(true)}
+					/>
+					{canShowErrorText(values.email.errorText) && (
+						<p className="control-error">{values.email.errorText}</p>
+					)}
 				</div>
 			</div>
 
@@ -110,7 +119,9 @@ export default function Login() {
 						value={values.password.value}
 						onBlur={() => setIsFormDirty(true)}
 					/>
-					{canShowErrorText(values.password.errorText) && <p className="control-error">{values.password.errorText}</p>}
+					{canShowErrorText(values.password.errorText) && (
+						<p className="control-error">{values.password.errorText}</p>
+					)}
 				</div>
 				<div className="control">
 					<label htmlFor="passwordConfirm">Confirm Password</label>
@@ -122,13 +133,16 @@ export default function Login() {
 						value={values.passwordConfirm.value}
 						onBlur={() => setIsFormDirty(true)}
 					/>
+					{values.password.value !== values.passwordConfirm.value && (
+						<p className="control-error">Passwords do not match</p>
+					)}
 				</div>
 			</div>
 			<br />
 			{/* firstname, lastName in control row */}
 			<div className="control-row">
 				<div className="control">
-					<label htmlFor="firstname">First Name</label>
+					<label htmlFor="firstname">First Name*</label>
 					<input
 						id="firstname"
 						type="text"
@@ -136,8 +150,11 @@ export default function Login() {
 						onChange={handleChange}
 						value={values.firstname.value}
 						onBlur={() => setIsFormDirty(true)}
+						required
 					/>
-					{canShowErrorText(values.firstname.errorText) && <p className="control-error">{values.firstname.errorText}</p>}
+					{canShowErrorText(values.firstname.errorText) && (
+						<p className="control-error">{values.firstname.errorText}</p>
+					)}
 				</div>
 				<div className="control">
 					<label htmlFor="lastname">Last Name</label>
@@ -149,7 +166,9 @@ export default function Login() {
 						value={values.lastname.value}
 						onBlur={() => setIsFormDirty(true)}
 					/>
-					{canShowErrorText(values.lastname.errorText) && <p className="control-error">{values.lastname.errorText}</p>}
+					{canShowErrorText(values.lastname.errorText) && (
+						<p className="control-error">{values.lastname.errorText}</p>
+					)}
 				</div>
 			</div>
 
@@ -180,12 +199,13 @@ export default function Login() {
 
 			<div className="control">
 				<label>
-					<input type="checkbox" id="agree" name="agree" onChange={handleChange} />I agree to the terms and conditions
+					<input type="checkbox" id="agree" name="agree" onChange={handleChange} />I agree to the terms and
+					conditions
 				</label>
 			</div>
 
 			<p className="form-actions">
-				<button className="button button-flat" onClick={resetForm}>
+				<button className="button button-flat" type="button" onClick={resetForm}>
 					Reset
 				</button>
 				<button className="button" disabled={!isFormValid || checkingValidity}>

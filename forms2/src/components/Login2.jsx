@@ -16,7 +16,13 @@ const INITIAL_STATE = {
 }
 
 export default function Login2() {
-	const { register, handleSubmit, watch, reset, formState : {errors} } = useForm({
+	const {
+		register,
+		handleSubmit,
+		watch,
+		reset,
+		formState: { errors, isValid },
+	} = useForm({
 		mode: "onTouched",
 		defaultValues: INITIAL_STATE,
 	})
@@ -77,7 +83,8 @@ export default function Login2() {
 			<div className="control-row">
 				<div className="control">
 					<label htmlFor="firstname">First Name</label>
-					<input id="firstname" type="text" name="firstname" {...register("firstName")} />
+					<input id="firstname" type="text" name="firstname" {...register("firstname")} />
+					
 				</div>
 				<div className="control">
 					<label htmlFor="lastname">Last Name</label>
@@ -121,13 +128,13 @@ export default function Login2() {
 						type="checkbox"
 						id="agree"
 						name="agree"
-						{...register("agreement", {
+						{...register("agree", {
 							required: "You must agree the terms and conditions",
 						})}
 					/>
 					I agree to the terms and conditions
 				</label>
-				{errors.agreement && <p className="control-error">{errors.agreement.message}</p>}
+				{errors.agree && <p className="control-error">{errors.agree.message}</p>}
 			</div>
 			<p className="form-actions">
 				<button className="button button-flat" type="button" onClick={() => reset(INITIAL_STATE)}>
