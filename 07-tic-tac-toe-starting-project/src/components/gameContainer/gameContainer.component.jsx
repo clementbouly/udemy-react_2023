@@ -17,7 +17,7 @@ const GameOver = ({ winner, resetGame }) => {
 
 export function GameContainer({ grid, handlePlayerClick, winner, resetGame, playerTurn, players, editPlayer }) {
 	return (
-		<div id="game-container" data-testId="game-container">
+		<div id="game-container" data-testid="game-container">
 			<Players playerTurn={playerTurn} players={players} editPlayer={editPlayer} />
 			<GameBoard grid={grid} handlePlayerClick={handlePlayerClick} />
 			{winner && <GameOver winner={winner} resetGame={resetGame} />}
