@@ -1,35 +1,43 @@
-import { useState } from "react"
+import { useState } from "react";
 
-export function PlayerEdition({ name, playerTurn, symbol, editPlayer }) {
+export function PlayerEdition({ name: initialName = "", playerTurn, symbol, editPlayer }) {
 	const [isEditing, setIsEditing] = useState(false)
-	const [playerName, setPlayerName] = useState(name)
+	const [playerName, setPlayerName] = useState(initialName)
 
-	const toggleEdit = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault()
-		setIsEditing(!isEditing)
+		toggleEdit()
 		if (isEditing) {
 			editPlayer(symbol, playerName)
 		}
+	}
+
+	const toggleEdit = () => {
+		setIsEditing((v) => !v)
 	}
 
 	const handleNameChange = (e) => {
 		setPlayerName(e.target.value)
 	}
 
+	let playerNameSection = <input type="text" value={playerName} onChange={handleNameChange} required />
+
+	if (!isEditing) {
+		playerNameSection = (
+			<div className="player-name" onDoubleClick={toggleEdit}>
+				{playerName}
+			</div>
+		)
+	}
+
 	return (
 		<li className={`player ${playerTurn === symbol ? "active" : null}`}>
-			<form onSubmit={toggleEdit}>
-				{isEditing ? (
-					<input type="text" value={playerName} onChange={handleNameChange} />
-				) : (
-					<div className="player-name" onDoubleClick={toggleEdit}>
-						{name}
-					</div>
-				)}
+			<form onSubmit={handleSubmit}>
+				{playerNameSection}
 
 				<div className="player-symbol">{symbol}</div>
 
-				<button onClick={toggleEdit}>{isEditing ? "Save" : "Edit"}</button>
+				<button>{isEditing ? "Save" : "Edit"}</button>
 			</form>
 		</li>
 	)

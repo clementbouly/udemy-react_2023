@@ -12,7 +12,6 @@ describe("PlayersLog", () => {
 		]
 		render(<PlayerLogs logs={logs} />)
 
-		// check if there are 2 li elements with screen
 		const playerLogs = screen.getAllByRole("listitem")
 
 		it("with the correct length", () => {
