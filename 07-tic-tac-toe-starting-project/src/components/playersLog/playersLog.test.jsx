@@ -6,9 +6,9 @@ import { PlayerLogs } from "./playersLog.component"
 describe("PlayersLog", () => {
 	describe("should render the list of players log", () => {
 		const logs = [
-			{ id: 1, player: "Max", x: 0, y: 0 },
+			{ id: 3, player: "Max", x: 0, y: 0 },
 			{ id: 2, player: "Léon", x: 0, y: 1 },
-			{ id: 3, player: "Max", x: 0, y: 2 },
+			{ id: 1, player: "Max", x: 0, y: 2 },
 		]
 		render(<PlayerLogs logs={logs} />)
 

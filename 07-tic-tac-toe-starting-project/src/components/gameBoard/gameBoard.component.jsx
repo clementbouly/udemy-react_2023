@@ -47,19 +47,19 @@ export function GameBoard({ playerTurn, setPlayerTurn, players, setWinner, addLo
 		return null
 	}
 
-	const handlePlayerClick = (e) => {
-		const x = e.target.dataset.x
-		const y = e.target.dataset.y
+	const handlePlayerClick = (x, y) => {
 		updateGrid(x, y, playerTurn)
 
-		addLog({ id: Math.random(), player: playerTurn, x: x, y: y })
+		addLog({ id: new Date().getTime(), player: playerTurn, x: x, y: y })
 		setPlayerTurn(playerTurn === players[0].symbol ? players[1].symbol : players[0].symbol)
 	}
 
 	const updateGrid = (x, y, value) => {
-		const newGrid = structuredClone(grid)
-		newGrid[x][y] = value
-		setGrid(newGrid)
+		setGrid((prevGrid) => {
+			const newGrid = structuredClone(prevGrid)
+			newGrid[x][y] = value
+			return newGrid
+		})
 	}
 
 	return (
@@ -68,13 +68,7 @@ export function GameBoard({ playerTurn, setPlayerTurn, players, setWinner, addLo
 				{grid.map((line, x) => {
 					return line.map((box, y) => {
 						return (
-							<button
-								data-x={x}
-								data-y={y}
-								key={`${x}-${y}`}
-								onClick={handlePlayerClick}
-								disabled={box !== null}
-							>
+							<button key={`${x}-${y}`} onClick={() => handlePlayerClick(x, y)} disabled={box !== null}>
 								{box}
 							</button>
 						)
