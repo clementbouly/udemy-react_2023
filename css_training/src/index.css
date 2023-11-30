@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* media queries to change font size to 80% 60% when tablet or mobile view */
+
+@media (max-width: 768px) {
+	html {
+		font-size: 90%;
+	}
+}
+
+@media (max-width: 480px) {
+	html {
+		font-size: 75%;
+	}
+}
+
 .hoverEffect {
 	@apply hover:scale-105 hover:border hover:border-red-500 transition-all duration-500;
   }
@@ -110,12 +124,12 @@ header p {
 	line-height: 1.5;
 	background-color: #d1d5db;
 	color: #374151;
-	border: 1px solid transparent;
+	/* border: 1px solid transparent; */
 	border-radius: 0.25rem;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
-label.invalid {
+/* label.invalid {
 	color: #f87171;
 }
 
@@ -123,7 +137,7 @@ input.invalid {
 	color: #ef4444;
 	border-color: #f73f3f;
 	background-color: #fed2d2;
-}
+} */
 
 .actions {
 	display: flex;

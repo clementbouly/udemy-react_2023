@@ -28,7 +28,9 @@ export default function AuthInputs() {
           <label>Email</label>
           <input
             type="email"
-            className={emailNotValid ? "invalid" : undefined}
+            className={
+              emailNotValid ? "border-4 border-red-600 text-red-700" : undefined
+            }
             onChange={(event) => handleInputChange("email", event.target.value)}
           />
         </p>
@@ -36,7 +38,9 @@ export default function AuthInputs() {
           <label>Password</label>
           <input
             type="password"
-            className={passwordNotValid ? "invalid" : undefined}
+            className={
+              passwordNotValid ? "border-4 border-red-600 text-red-700" : undefined
+            }
             onChange={(event) =>
               handleInputChange("password", event.target.value)
             }
@@ -48,9 +52,7 @@ export default function AuthInputs() {
           Create a new account
         </button>
         <TextButton>Create a new account</TextButton>
-        <PrimaryButton onClick={handleLogin}>
-          Sign In
-        </PrimaryButton>
+        <PrimaryButton onClick={handleLogin}>Sign In</PrimaryButton>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header
       className="mb-8 mt-8 flex flex-col items-center 
-	sm:mb-16
+
 	"
     >
       <img
@@ -14,12 +14,12 @@ export default function Header() {
       />
       <h1
         className="
-	 	m-0 text-center font-pacifico text-2xl font-semibold uppercase  tracking-widest text-[#9a3412] hover:underline sm:text-3xl md:text-4xl"
+	 	m-0 text-center font-pacifico text-4xl font-semibold uppercase  tracking-widest text-[#9a3412] hover:underline"
       >
         ReactArt
       </h1>
       <p className="text-center text-xl text-amber-700 ">
-        A community of artists and art-lovers.
+        A community of artists and art-lovers
       </p>
     </header>
   );
