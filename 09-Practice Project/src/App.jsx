@@ -9,7 +9,11 @@ function App() {
 		id: 1,
 		title: "Learning React",
 		date: "Dec 29 2024",
-		description: "This is a description of the Learning React project",
+		description: `
+		This is a description of the Learning React project which is a project that I am using to learn React.
+		
+		This is a description of the Learning React project
+		`,
 		tasks: [
 			{
 				id: 1,
@@ -31,13 +35,13 @@ function App() {
 	}
 
 	const [projects, setProjects] = useState([fakeProject])
-
-	const [editProject, setEditProject] = useState(false)
 	const [selectedProject, setSelectedProject] = useState(null)
+
+	const [addingProject, setAddingProject] = useState(false)
 
 	const handleProjectSelect = (project) => {
 		setSelectedProject(project)
-		setEditProject(false)
+		setAddingProject(false)
 	}
 
 	const handleDeleteProject = (project) => {
@@ -49,16 +53,10 @@ function App() {
 	}
 
 	const handleAddProject = (project) => {
-		const newProject = {
-			...project,
-			id: projects.length + 1,
-			tasks: [],
-		}
-		const newProjects = [...projects, newProject]
-		console.log(newProjects)
+		const newProjects = [...projects, project]
 		setProjects(newProjects)
-		setSelectedProject(newProject)
-		setEditProject(false)
+		setSelectedProject(project)
+		setAddingProject(false)
 	}
 
 	const handleTaskDelete = (task, project) => {
@@ -81,7 +79,7 @@ function App() {
 		setSelectedProject(newProject)
 	}
 
-	let content = <NoProjectView handleCreateProject={() => setEditProject(true)} />
+	let content = <NoProjectView handleCreateProject={() => setAddingProject(true)} />
 
 	if (selectedProject) {
 		content = (
@@ -94,8 +92,8 @@ function App() {
 		)
 	}
 
-	if (editProject) {
-		content = <NewProject handleCancel={() => setEditProject(false)} addProject={handleAddProject} />
+	if (addingProject) {
+		content = <NewProject handleCancel={() => setAddingProject(false)} addProject={handleAddProject} />
 	}
 
 	return (
@@ -104,7 +102,7 @@ function App() {
 				<Sidebar
 					projects={projects}
 					selectedProject={selectedProject}
-					handleCreateProject={() => setEditProject(true)}
+					handleCreateProject={() => setAddingProject(true)}
 					handleProjectSelect={handleProjectSelect}
 				/>
 				<div className="flex-1 flex justify-center items-center h-4/5 p-4">{content}</div>

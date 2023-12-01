@@ -29,7 +29,7 @@ export const ProjectView = ({ project, handleDelete, handleTaskDelete, handleTas
 					<div>
 						<h1 className="text-5xl font-bold text-zinc-700">{project.title}</h1>
 						<h2 className="mt-5 text-2xl font-medium text-zinc-400">{project.date}</h2>
-						<p className="mt-5 text-xl text-zinc-600 ">{project.description}</p>
+						<p className="mt-5 text-xl text-zinc-600 whitespace-pre-wrap">{project.description}</p>
 					</div>
 					<div>
 						<SecondaryButton onClick={toggleDialog}>Delete</SecondaryButton>

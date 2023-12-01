@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { CustomButton, SecondaryButton } from "../../UI/Buttons/Buttons"
-import { Input, TextArea } from "../../UI/Inputs/Inputs"
+import { Input } from "../../UI/Inputs/Inputs"
 
 export const NewProject = ({ handleCancel, addProject }) => {
 	const {
@@ -23,6 +23,7 @@ export const NewProject = ({ handleCancel, addProject }) => {
 			title: data.projectName,
 			description: data.description,
 			date: data.deadlineDate,
+			tasks: [],
 		}
 
 		addProject(newProject)
@@ -59,9 +60,10 @@ export const NewProject = ({ handleCancel, addProject }) => {
 						})}
 						error={errors.projectName}
 					/>
-					<TextArea
+					<Input
 						label="Project Description"
 						type="text"
+						textarea
 						register={register("description")}
 						error={errors.description}
 					/>
