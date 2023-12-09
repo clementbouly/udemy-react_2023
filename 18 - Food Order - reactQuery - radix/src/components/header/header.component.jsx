@@ -6,6 +6,7 @@ import { useBounceAnimation } from "../../hooks/useBounceAnimation"
 export function Header() {
 	// get the cart context
 	const cartCtx = useContext(CartContext)
+	const { items, setShowModal } = cartCtx
 	const isItemAdded = useBounceAnimation(cartCtx)
 
 	return (
@@ -20,10 +21,10 @@ export function Header() {
 			${isItemAdded ? "animate-bounce" : ""}
 			`}
 				onClick={() => {
-					cartCtx.setShowModal(true)
+					setShowModal(true)
 				}}
 			>
-				Cart <span className="font-mono">({cartCtx.items.reduce((acc, item) => acc + item.quantity, 0)})</span>
+				Cart <span className="font-mono">({items.reduce((acc, item) => acc + item.quantity, 0)})</span>
 			</button>
 		</header>
 	)

@@ -11,7 +11,6 @@ export const CartContext = createContext({
 	clearCart: () => {},
 	showModal: false,
 	setShowModal: () => {},
-  clearCart: () => {},
 })
 
 function App() {

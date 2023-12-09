@@ -1,11 +1,13 @@
 export const PrimaryButton = ({ children, className, ...props }) => {
-	// yellow-400
 	return (
 		<button
-			className={className + ` bg-yellow-400 text-yellow-950 font-medium px-4 py-2 rounded-md first-letter:
+			className={
+				
+				` ${className} bg-yellow-400 text-yellow-950 font-medium px-4 py-2 rounded-md first-letter:
 		hover:bg-yellow-500 hover:text-stone-900 transition-colors duration-300
 		active:bg-yellow-600 active:text-stone-900
-		`}
+		`
+			}
 			{...props}
 		>
 			{children}
