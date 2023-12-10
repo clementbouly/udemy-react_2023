@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { CartContext } from "../../App"
 import { PrimaryButton } from "../../UI/Buttons/Buttons"
+import { CartContext } from "../../store/CartProvider"
 
 const BACKEND_URL = "http://localhost:3000"
 

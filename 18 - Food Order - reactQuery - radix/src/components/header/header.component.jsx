@@ -1,13 +1,13 @@
 import { useContext } from "react"
-import { CartContext } from "../../App"
 import headerLogo from "../../assets/logo.jpg"
 import { useBounceAnimation } from "../../hooks/useBounceAnimation"
+import { CartContext } from "../../store/CartProvider"
 
 export function Header() {
-	// get the cart context
 	const cartCtx = useContext(CartContext)
 	const { items, setShowModal } = cartCtx
 	const isItemAdded = useBounceAnimation(cartCtx)
+	const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
 
 	return (
 		<header className="py-8 flex justify-around sticky top-0 bg-[#29251c]">
@@ -24,7 +24,7 @@ export function Header() {
 					setShowModal(true)
 				}}
 			>
-				Cart <span className="font-mono">({items.reduce((acc, item) => acc + item.quantity, 0)})</span>
+				Cart <span className="font-mono">({totalItems})</span>
 			</button>
 		</header>
 	)

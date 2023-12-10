@@ -1,15 +1,18 @@
 import { useContext, useEffect, useState } from "react"
-import { CartContext } from "../../App"
+import { CartContext } from "../../store/CartProvider"
 import { Cart } from "../cart/cart.component"
 import { Checkout } from "../checkout/checkout.component"
 import { Modal } from "../modal/modal.component"
 
-export function CartProcess({ cart }) {
+export function CartProcess() {
+	const CartCtx = useContext(CartContext)
+	const { showModal, setShowModal, addItem, clearCart, items, totalAmount } = CartCtx
+
 	const SHOPPING_PROCESSES = [
 		{
 			id: "cart",
 			nextStep: "checkout",
-			actionText: "Go to checkout",
+			actionText: items.length === 0 ? "" : "Checkout",
 		},
 		{
 			id: "checkout",
@@ -24,8 +27,6 @@ export function CartProcess({ cart }) {
 		},
 	]
 
-	const CartCtx = useContext(CartContext)
-	const { showModal, setShowModal, addItem, clearCart } = CartCtx
 	const [cartStatus, setCartStatus] = useState(SHOPPING_PROCESSES[0])
 	const [checkoutFormData, setCheckoutFormData] = useState({
 		name: "",
@@ -39,7 +40,7 @@ export function CartProcess({ cart }) {
 	let modalContent = null
 
 	if (cartStatus.id === "cart") {
-		modalContent = <Cart items={cart.items} totalAmount={cart.totalAmount} updateItemQuantity={addItem} />
+		modalContent = <Cart items={items} totalAmount={totalAmount} updateItemQuantity={addItem} />
 	}
 
 	if (cartStatus.id === "checkout") {
@@ -73,8 +74,8 @@ export function CartProcess({ cart }) {
 				customer: {
 					...checkoutFormData,
 				},
-				items: cart.items,
-				totalAmount: cart.totalAmount,
+				items: items,
+				totalAmount: totalAmount,
 			}
 
 			fetch("http://localhost:3000/orders", {
@@ -111,6 +112,20 @@ export function CartProcess({ cart }) {
 		}
 	}, [cartStatus, showModal])
 
+	const getActionText = () => {
+		if (cartStatus.id === "cart") {
+			return items.length === 0 ? "" : "Checkout"
+		}
+
+		if (cartStatus.id === "checkout") {
+			return "Submit order"
+		}
+
+		if (cartStatus.id === "error") {
+			return "Go back to cart"
+		}
+	}
+
 	return (
 		<>
 			{showModal && (
@@ -119,7 +134,7 @@ export function CartProcess({ cart }) {
 					setIsOpen={setShowModal}
 					actionSubmit={cartStatus.id === "checkout"}
 					actionFn={onNextStep}
-					actionText={cartStatus.actionText}
+					actionText={getActionText()}
 				>
 					{modalContent}
 				</Modal>

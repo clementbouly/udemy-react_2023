@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import { CartContext } from "../../App"
 import { PrimaryButton } from "../../UI/Buttons/Buttons"
 import { Input } from "../../UI/Inputs/Input"
+import { CartContext } from "../../store/CartProvider"
 
 export function Checkout({ setCheckoutFormData, checkoutFormData }) {
 	const CartCtx = useContext(CartContext)

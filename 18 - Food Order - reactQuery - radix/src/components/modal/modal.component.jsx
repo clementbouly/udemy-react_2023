@@ -1,7 +1,8 @@
-import * as Dialog from "@radix-ui/react-dialog"
-import { PrimaryButton, SecondaryButton } from "../../UI/Buttons/Buttons"
+import * as Dialog from "@radix-ui/react-dialog";
+import { PrimaryButton, SecondaryButton } from "../../UI/Buttons/Buttons";
 
 export function Modal({ children, isOpen, setIsOpen, actionFn, actionText }) {
+	console.log(actionText);
 	return (
 		<Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
 			<Dialog.Portal>
