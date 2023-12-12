@@ -4,30 +4,33 @@ import { Cart } from "../cart/cart.component"
 import { Checkout } from "../checkout/checkout.component"
 import { Modal } from "../modal/modal.component"
 
+const CART_ID = "cart"
+const CHECKOUT_ID = "checkout"
+const SUCCESS_ID = "success"
+const ERROR_ID = "error"
+
+const SHOPPING_PROCESSES = [
+	{
+		id: CART_ID,
+		nextStep: CHECKOUT_ID,
+		actionText: "Checkout",
+	},
+	{
+		id: CHECKOUT_ID,
+		actionText: "Submit order",
+	},
+	{
+		id: SUCCESS_ID,
+	},
+	{
+		id: ERROR_ID,
+		actionText: "Go back to cart",
+	},
+]
+
 export function CartProcess() {
 	const CartCtx = useContext(CartContext)
 	const { showModal, setShowModal, addItem, clearCart, items, totalAmount } = CartCtx
-
-	const SHOPPING_PROCESSES = [
-		{
-			id: "cart",
-			nextStep: "checkout",
-			actionText: items.length === 0 ? "" : "Checkout",
-		},
-		{
-			id: "checkout",
-			actionText: "Submit order",
-		},
-		{
-			id: "success",
-		},
-		{
-			id: "error",
-			actionText: "Go back to cart",
-		},
-	]
-
-	const [cartStatus, setCartStatus] = useState(SHOPPING_PROCESSES[0])
 	const [checkoutFormData, setCheckoutFormData] = useState({
 		name: "",
 		email: "",
@@ -37,42 +40,31 @@ export function CartProcess() {
 	})
 	const [errorMessage, setErrorMessage] = useState(null)
 
-	let modalContent = null
+	const [cartStatus, setCartStatus] = useState(SHOPPING_PROCESSES[0])
 
-	if (cartStatus.id === "cart") {
-		modalContent = <Cart items={items} totalAmount={totalAmount} updateItemQuantity={addItem} />
+	const getShoppingProcess = (id) => {
+		const { actionText, nextStep } = SHOPPING_PROCESSES.find((process) => process.id === id)
+
+		return {
+			actionText,
+			nextStep,
+			id,
+		}
 	}
 
-	if (cartStatus.id === "checkout") {
-		modalContent = <Checkout setCheckoutFormData={setCheckoutFormData} checkoutFormData={checkoutFormData} />
-	}
-
-	if (cartStatus.id === "success") {
-		modalContent = <div>Success</div>
-	}
-
-	if (cartStatus.id === "error") {
-		modalContent = (
-			<div>
-				<h1 className="text-3xl font-semibold mb-2">Something went wrong :</h1>
-				<p>{errorMessage}</p>
-			</div>
-		)
-	}
-
-	const onNextStep = () => {
-		if (cartStatus.id === "cart") {
-			setCartStatus(SHOPPING_PROCESSES[1])
+	const onNextStep = (formData) => {
+		if (cartStatus.id === CART_ID) {
+			setCartStatus(getShoppingProcess(items.length === 0 ? CART_ID : CHECKOUT_ID))
 		}
 
-		if (cartStatus.id === "error") {
-			setCartStatus(SHOPPING_PROCESSES[1])
+		if (cartStatus.id === ERROR_ID) {
+			setCartStatus(getShoppingProcess(CHECKOUT_ID))
 		}
 
-		if (cartStatus.id === "checkout") {
+		if (cartStatus.id === CHECKOUT_ID) {
 			const orderToSend = {
 				customer: {
-					...checkoutFormData,
+					...formData,
 				},
 				items: items,
 				totalAmount: totalAmount,
@@ -96,33 +88,56 @@ export function CartProcess() {
 				.then((data) => {
 					console.log(data)
 
-					setCartStatus(SHOPPING_PROCESSES[2])
+					setCartStatus(getShoppingProcess(SUCCESS_ID))
 					clearCart()
 				})
 				.catch((error) => {
-					setCartStatus(SHOPPING_PROCESSES[3])
+					setCartStatus(getShoppingProcess(ERROR_ID))
 					setErrorMessage(error.message)
 				})
 		}
 	}
 
+	let modalContent = null
+
+	if (cartStatus.id === "cart") {
+		modalContent = <Cart items={items} totalAmount={totalAmount} updateItemQuantity={addItem} />
+	}
+
+	if (cartStatus.id === "checkout") {
+		modalContent = <Checkout onNextStep={onNextStep} />
+	}
+
+	if (cartStatus.id === "success") {
+		modalContent = <div>Success</div>
+	}
+
+	if (cartStatus.id === "error") {
+		modalContent = (
+			<div>
+				<h1 className="text-3xl font-semibold mb-2">Something went wrong :</h1>
+				<p>{errorMessage}</p>
+			</div>
+		)
+	}
+
 	useEffect(() => {
 		if ((cartStatus.id === "success" || cartStatus.id === "error") && !showModal) {
-			setCartStatus(SHOPPING_PROCESSES[0])
+			setCartStatus(getShoppingProcess(CART_ID))
 		}
 	}, [cartStatus, showModal])
 
 	const getActionText = () => {
-		if (cartStatus.id === "cart") {
-			return items.length === 0 ? "" : "Checkout"
+		if (cartStatus.id === CART_ID) {
+			return items.length === 0 ? "" : getShoppingProcess(CART_ID).actionText
 		}
 
-		if (cartStatus.id === "checkout") {
-			return "Submit order"
+		if (cartStatus.id === CHECKOUT_ID) {
+			return getShoppingProcess(CHECKOUT_ID).actionText
 		}
 
-		if (cartStatus.id === "error") {
-			return "Go back to cart"
+		if (cartStatus.id === ERROR_ID) {
+			return getShoppingProcess(ERROR_ID).actionText
 		}
 	}
 
