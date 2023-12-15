@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { CartContext } from "../../store/CartProvider"
 import { Cart } from "../cart/cart.component"
+import { CartError } from "../cartError/cartError.component"
 import { Checkout } from "../checkout/checkout.component"
 import { Modal } from "../modal/modal.component"
 
@@ -9,59 +10,24 @@ const CHECKOUT_ID = "checkout"
 const SUCCESS_ID = "success"
 const ERROR_ID = "error"
 
-const SHOPPING_PROCESSES = [
-	{
-		id: CART_ID,
-		nextStep: CHECKOUT_ID,
-		actionText: "Checkout",
-	},
-	{
-		id: CHECKOUT_ID,
-		actionText: "Submit order",
-	},
-	{
-		id: SUCCESS_ID,
-	},
-	{
-		id: ERROR_ID,
-		actionText: "Go back to cart",
-	},
-]
-
 export function CartProcess() {
 	const CartCtx = useContext(CartContext)
-	const { showModal, setShowModal, addItem, clearCart, items, totalAmount } = CartCtx
-	const [checkoutFormData, setCheckoutFormData] = useState({
-		name: "",
-		email: "",
-		street: "",
-		postalCode: "",
-		city: "",
-	})
+	const { showModal, setShowModal, clearCart, items, totalAmount } = CartCtx
+
 	const [errorMessage, setErrorMessage] = useState(null)
 
-	const [cartStatus, setCartStatus] = useState(SHOPPING_PROCESSES[0])
-
-	const getShoppingProcess = (id) => {
-		const { actionText, nextStep } = SHOPPING_PROCESSES.find((process) => process.id === id)
-
-		return {
-			actionText,
-			nextStep,
-			id,
-		}
-	}
+	const [cartStatus, setCartStatus] = useState(CART_ID)
 
 	const onNextStep = (formData) => {
-		if (cartStatus.id === CART_ID) {
-			setCartStatus(getShoppingProcess(items.length === 0 ? CART_ID : CHECKOUT_ID))
+		if (cartStatus === CART_ID) {
+			setCartStatus(CHECKOUT_ID)
 		}
 
-		if (cartStatus.id === ERROR_ID) {
-			setCartStatus(getShoppingProcess(CHECKOUT_ID))
+		if (cartStatus === ERROR_ID) {
+			setCartStatus(CHECKOUT_ID)
 		}
 
-		if (cartStatus.id === CHECKOUT_ID) {
+		if (cartStatus === CHECKOUT_ID) {
 			const orderToSend = {
 				customer: {
 					...formData,
@@ -88,11 +54,12 @@ export function CartProcess() {
 				.then((data) => {
 					console.log(data)
 
-					setCartStatus(getShoppingProcess(SUCCESS_ID))
+					setCartStatus(SUCCESS_ID)
 					clearCart()
+					localStorage.setItem("order", null)
 				})
 				.catch((error) => {
-					setCartStatus(getShoppingProcess(ERROR_ID))
+					setCartStatus(ERROR_ID)
 					setErrorMessage(error.message)
 				})
 		}
@@ -100,57 +67,31 @@ export function CartProcess() {
 
 	let modalContent = null
 
-	if (cartStatus.id === "cart") {
-		modalContent = <Cart items={items} totalAmount={totalAmount} updateItemQuantity={addItem} />
-	}
-
-	if (cartStatus.id === "checkout") {
-		modalContent = <Checkout onNextStep={onNextStep} />
-	}
-
-	if (cartStatus.id === "success") {
-		modalContent = <div>Success</div>
-	}
-
-	if (cartStatus.id === "error") {
-		modalContent = (
-			<div>
-				<h1 className="text-3xl font-semibold mb-2">Something went wrong :</h1>
-				<p>{errorMessage}</p>
-			</div>
-		)
+	switch (cartStatus) {
+		case CART_ID:
+			modalContent = <Cart onNextStep={onNextStep} />
+			break
+		case CHECKOUT_ID:
+			modalContent = <Checkout onNextStep={onNextStep} />
+			break
+		case SUCCESS_ID:
+			modalContent = <div>Success</div>
+			break
+		case ERROR_ID:
+			modalContent = <CartError errorMessage={errorMessage} onNextStep={onNextStep} />
+			break
 	}
 
 	useEffect(() => {
-		if ((cartStatus.id === "success" || cartStatus.id === "error") && !showModal) {
-			setCartStatus(getShoppingProcess(CART_ID))
+		if ((cartStatus === SUCCESS_ID || cartStatus === ERROR_ID) && !showModal) {
+			setCartStatus(CART_ID)
 		}
 	}, [cartStatus, showModal])
-
-	const getActionText = () => {
-		if (cartStatus.id === CART_ID) {
-			return items.length === 0 ? "" : getShoppingProcess(CART_ID).actionText
-		}
-
-		if (cartStatus.id === CHECKOUT_ID) {
-			return getShoppingProcess(CHECKOUT_ID).actionText
-		}
-
-		if (cartStatus.id === ERROR_ID) {
-			return getShoppingProcess(ERROR_ID).actionText
-		}
-	}
 
 	return (
 		<>
 			{showModal && (
-				<Modal
-					isOpen={showModal}
-					setIsOpen={setShowModal}
-					actionSubmit={cartStatus.id === "checkout"}
-					actionFn={onNextStep}
-					actionText={getActionText()}
-				>
+				<Modal isOpen={showModal} setIsOpen={setShowModal}>
 					{modalContent}
 				</Modal>
 			)}

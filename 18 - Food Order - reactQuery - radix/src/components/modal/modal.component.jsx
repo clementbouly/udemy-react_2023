@@ -1,8 +1,6 @@
-import * as Dialog from "@radix-ui/react-dialog";
-import { PrimaryButton, SecondaryButton } from "../../UI/Buttons/Buttons";
+import * as Dialog from "@radix-ui/react-dialog"
 
-export function Modal({ children, isOpen, setIsOpen, actionFn, actionText }) {
-	console.log(actionText);
+export function Modal({ children, isOpen, setIsOpen }) {
 	return (
 		<Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
 			<Dialog.Portal>
@@ -12,13 +10,6 @@ export function Modal({ children, isOpen, setIsOpen, actionFn, actionText }) {
 						<button className="absolute top-4 right-4 font-bold text-stone-950 hover:text-stone-900 focus:outline-none">X</button>
 					</Dialog.Close>
 					{children}
-					<hr className="my-3 border-stone-400" />
-					<div className="mt-3 flex gap-2 justify-end">
-						<Dialog.Close asChild>
-							<SecondaryButton>Close</SecondaryButton>
-						</Dialog.Close>
-						{actionText && <PrimaryButton onSubmit={actionFn} onClick={actionFn}>{actionText}</PrimaryButton>}
-					</div>
 				</Dialog.Content>
 			</Dialog.Portal>
 		</Dialog.Root>

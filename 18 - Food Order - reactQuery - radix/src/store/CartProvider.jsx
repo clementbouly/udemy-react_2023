@@ -4,7 +4,6 @@ export const CartContext = createContext({
 	items: [],
 	totalAmount: 0,
 	addItem: (item) => {},
-	removeItem: (id) => {},
 	clearCart: () => {},
 	showModal: false,
 	setShowModal: () => {},
@@ -40,11 +39,21 @@ export const CartContextProvider = ({ children }) => {
 		setCart({ items: [], totalAmount: 0 })
 	}
 
+	const openModal = () => {
+		setShowModal(true)
+	}
+
+	const closeModal = () => {
+		setShowModal(false)
+	}
+
 	return (
 		<CartContext.Provider
 			value={{
 				showModal,
 				setShowModal,
+				openModal,
+				closeModal,
 				items: cart.items,
 				totalAmount: cart.totalAmount,
 				addItem: addItemToCartHandler,

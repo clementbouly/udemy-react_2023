@@ -5,7 +5,7 @@ import { CartContext } from "../../store/CartProvider"
 
 export function Header() {
 	const cartCtx = useContext(CartContext)
-	const { items, setShowModal } = cartCtx
+	const { items, openModal } = cartCtx
 	const isItemAdded = useBounceAnimation(cartCtx)
 	const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
 
@@ -20,9 +20,7 @@ export function Header() {
 			hover:bg-yellow-500 hover:text-stone-900 transition-colors duration-300
 			${isItemAdded ? "animate-bounce" : ""}
 			`}
-				onClick={() => {
-					setShowModal(true)
-				}}
+				onClick={openModal}
 			>
 				Cart <span className="font-mono">({totalItems})</span>
 			</button>
