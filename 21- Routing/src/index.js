@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client"
 
 import { Link, Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
 import App from "./App"
+import { Home } from "./Home.component"
+import { PostDetails } from "./PostDetails.component"
 import "./index.css"
 
 const router = createBrowserRouter([
@@ -13,11 +15,15 @@ const router = createBrowserRouter([
 				<App /> <Outlet />
 			</>
 		),
-    errorElement: <h1>404 : <Link to="/">Go Back</Link></h1>,
+		errorElement: (
+			<h1>
+				404 : <Link to="/">Go Back</Link>
+			</h1>
+		),
 		children: [
 			{
 				path: "/",
-				element: <h1>Home</h1>,
+				element: <Home />,
 			},
 			{
 				path: "/about",
@@ -28,9 +34,9 @@ const router = createBrowserRouter([
 				element: <h1 className="active">Contact</h1>,
 			},
 			{
-				path: "/:id",
-				element: <h1>Post</h1>,
-			}
+				path: "/post/:id",
+				element: <PostDetails />,
+			},
 		],
 	},
 ])
