@@ -22,3 +22,12 @@
 .list a.active {
   color: var(--color-primary-800);
 }
+
+.list button {
+  font: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary-400);
+  font-size: 2rem;
+}
