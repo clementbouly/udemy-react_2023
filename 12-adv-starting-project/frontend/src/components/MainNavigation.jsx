@@ -3,8 +3,8 @@ import classes from "./MainNavigation.module.css"
 
 function MainNavigation() {
 	const NAV_LINKS = [
-		{ to: "/", text: "Home" },
-		{ to: "/events", text: "Events" },
+		{ to: "/", text: "Home", end: true },
+		{ to: "/events", text: "Events", end: false },
 	]
 
 	const navigate = useNavigate()
@@ -23,7 +23,7 @@ function MainNavigation() {
 
 					{NAV_LINKS.map((link) => (
 						<li key={link.to}>
-							<NavLink to={link.to} end className={({ isActive }) => (isActive ? classes.active : "")}>
+							<NavLink to={link.to} end={link.end} className={({ isActive }) => (isActive ? classes.active : "")}>
 								{link.text}
 							</NavLink>
 						</li>

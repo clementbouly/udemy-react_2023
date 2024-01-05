@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import classes from "./EventsList.module.css"
+import { Link } from "react-router-dom";
+import classes from "./EventsList.module.css";
 
 function EventsList({ events }) {
 	return (

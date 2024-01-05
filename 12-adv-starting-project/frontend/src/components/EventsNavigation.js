@@ -1,7 +1,12 @@
-import { NavLink, Outlet } from "react-router-dom"
+import { NavLink, Outlet, useNavigation } from "react-router-dom"
 import classes from "./EventsNavigation.module.css"
+import { Loader } from "./Loader/Loader"
 
 function EventsNavigation() {
+	const navigation = useNavigation()
+
+	const isLoading = navigation.state === "loading"
+
 	return (
 		<>
 			<header className={classes.header}>
@@ -20,7 +25,8 @@ function EventsNavigation() {
 					</ul>
 				</nav>
 			</header>
-			<Outlet />
+
+			{isLoading ? <Loader /> : <Outlet />}
 		</>
 	)
 }
