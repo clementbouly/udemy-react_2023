@@ -1,8 +1,13 @@
-import { redirect, useRouteLoaderData } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { redirect, useParams } from "react-router-dom"
+import { eventDetailQuery } from "../EventDetailPage/EventDetailPage.component"
 import EventForm from "../EventForm"
 
 export function EditEventPage() {
-	const { event } = useRouteLoaderData("eventDetails")
+	const params = useParams()
+
+	const { data: event } = useQuery(eventDetailQuery(params.id))
+	console.log(event);
 
 	return (
 		<div>

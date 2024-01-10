@@ -13,20 +13,14 @@ import { HomePage } from "./components/HomePage/HomePage.component"
 import { NewEventPage, newEventAction } from "./components/NewEventPage/NewEventPage.component"
 import "./index.css"
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60,
-    },
-  },
-})
+const queryClient = new QueryClient({})
 
 export const routes = createBrowserRouter([
 	{
 		path: "/",
 		element: <Root />,
 		children: [
-			{ path: "", element: <HomePage  /> },
+			{ path: "", element: <HomePage /> },
 			{
 				path: "events/",
 				element: <EventsNavigation />,

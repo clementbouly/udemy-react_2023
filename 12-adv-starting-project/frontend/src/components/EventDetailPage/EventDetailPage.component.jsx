@@ -13,7 +13,7 @@ const getEventDetails = async (id) => {
 	}
 }
 
-const eventDetailQuery = (id) => ({
+export const eventDetailQuery = (id) => ({
 	queryKey: ["eventDetails", id],
 	queryFn: async () => {
 		const events = await getEventDetails(id)
@@ -30,7 +30,6 @@ export const eventDetailLoaderWithCache =
 	}
 
 export function EventDetailPage() {
-	// const { event } = useRouteLoaderData("eventDetails")
 	const params = useParams()
 
 	const { data: event } = useQuery(eventDetailQuery(params.id))
