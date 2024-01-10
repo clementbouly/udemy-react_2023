@@ -1,74 +1,65 @@
-import { useNavigate } from "react-router-dom"
+import { Form, useNavigate } from "react-router-dom"
 
-import { useEffect, useState } from "react"
 import classes from "./EventForm.module.css"
 
-const defaultValues = {
+const DEFAULT_VALUES = {
 	title: "",
 	image: "",
 	date: "",
 	description: "",
 }
 
-function EventForm({ method, eventId }) {
-	const [initialValues, setInitialValues] = useState(defaultValues)
+function EventForm({ method, event }) {
+	let initialValues = event || DEFAULT_VALUES
+
 	const navigate = useNavigate()
 	function cancelHandler() {
-		navigate("..")
+		navigate(-1)
 	}
 
-	useEffect(() => {
-		if (method === "PATCH") {
-			fetch(`http://localhost:8080/events/${eventId}`)
-				.then((response) => response.json())
-				.then((data) => setInitialValues(data.event))
-		}
-	}, [method, eventId])
+	// const onSubmit = (e) => {
+	// 	e.preventDefault()
+	// 	const formData = new FormData(e.target)
+	// 	const data = Object.fromEntries(formData.entries())
 
-	const onSubmit = (e) => {
-		e.preventDefault()
-		const formData = new FormData(e.target)
-		const data = Object.fromEntries(formData.entries())
+	// 	switch (method) {
+	// 		case "POST":
+	// 			postNewEvent(data)
+	// 			break
+	// 		case "PATCH":
+	// 			updateEvent(data)
+	// 			break
+	// 		default:
+	// 			break
+	// 	}
+	// }
 
-		switch (method) {
-			case "POST":
-				postNewEvent(data)
-				break
-			case "PATCH":
-				updateEvent(data)
-				break
-			default:
-				break
-		}
-	}
+	// const postNewEvent = (data) => {
+	// 	fetch(`http://localhost:8080/events`, {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify(data),
+	// 	}).then(() => {
+	// 		navigate("..")
+	// 	})
+	// }
 
-	const postNewEvent = (data) => {
-		fetch(`http://localhost:8080/events`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		}).then(() => {
-			navigate("..")
-		})
-	}
-
-	const updateEvent = (data) => {
-		console.log("EDIT EVENT", data)
-		fetch(`http://localhost:8080/events/${eventId}`, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		}).then(() => {
-			navigate("..")
-		})
-	}
+	// const updateEvent = (data) => {
+	// 	fetch(`http://localhost:8080/events/${event.id}`, {
+	// 		method: "PATCH",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify(data),
+	// 	}).then(() => {
+	// 		navigate("..")
+	// 	})
+	// }
 
 	return (
-		<form className={classes.form} onSubmit={onSubmit}>
+		<Form method={method} className={classes.form} >
 			<p>
 				<label htmlFor="title">Title</label>
 				<input id="title" type="text" name="title" required defaultValue={initialValues.title} />
@@ -91,7 +82,7 @@ function EventForm({ method, eventId }) {
 				</button>
 				<button>Save</button>
 			</div>
-		</form>
+		</Form>
 	)
 }
 

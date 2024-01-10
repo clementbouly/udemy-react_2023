@@ -1,18 +1,7 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Form, Link } from "react-router-dom"
 import classes from "./EventItem.module.css"
 
 function EventItem({ event }) {
-	const navigate = useNavigate()
-	function startDeleteHandler() {
-		fetch(`http://localhost:8080/events/${event.id}`, {
-			method: "DELETE",
-		}).then(() => {
-			setTimeout(() => {
-				navigate("/events")
-			}, 1000)
-		})
-	}
-
 	return (
 		<article className={classes.event}>
 			<img src={event.image} alt={event.title} />
@@ -21,10 +10,22 @@ function EventItem({ event }) {
 			<p>{event.description}</p>
 			<menu className={classes.actions}>
 				<Link to="edit">Edit</Link>
-				<button onClick={startDeleteHandler}>Delete</button>
+				<Form
+					method="post"
+					action="destroy"
+					onSubmit={(event) => {
+						if (!window.confirm("Please confirm you want to delete this record.")) {
+							event.preventDefault()
+						}
+					}}
+				>
+					<button type="submit">Delete</button>
+				</Form>
 			</menu>
 		</article>
 	)
 }
 
 export default EventItem
+
+
