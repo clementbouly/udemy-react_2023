@@ -1,14 +1,8 @@
-import { Outlet, createBrowserRouter, useNavigation, useRouteError } from "react-router-dom"
-import { EditEventPage, editEventAction } from "../components/EditEventPage/EditEventPage.component"
-import { EventDetailPage, deleteRecordAction, loaderEventsDetails } from "../components/EventDetailPage/EventDetailPage.component"
-import EventsNavigation from "../components/EventsNavigation"
-import { EventsPage, getEvents } from "../components/EventsPage/EventsPage.component"
-import { HomePage } from "../components/HomePage/HomePage.component"
+import { Outlet, useNavigation, useRouteError } from "react-router-dom"
 import { Loader } from "../components/Loader/Loader"
 import MainNavigation from "../components/MainNavigation"
-import { NewEventPage, newEventAction } from "../components/NewEventPage/NewEventPage.component"
 
-const Root = () => {
+export const Root = () => {
 	const navigation = useNavigation()
 
 	const isLoading = navigation.state === "loading"
@@ -20,47 +14,15 @@ const Root = () => {
 	)
 }
 
-function ErrorBoundary() {
-	let error = useRouteError()
-	console.log("ERROR PAGE", error)
+export function ErrorBoundary() {
+	const error = useRouteError()
+	console.log(error)
+	const stringError = JSON.stringify(error)
 
 	return (
 		<div role="alert">
-			<p>Something went wrong:</p>
-			<pre>{error.data.message}</pre>
+			<h1>Something went wrong:</h1>
+			<pre>{stringError}</pre>
 		</div>
 	)
 }
-
-export const routes = createBrowserRouter([
-	{
-		path: "/",
-		element: <Root />,
-		children: [
-			{ path: "", element: <HomePage /> },
-			{
-				path: "events/",
-				element: <EventsNavigation />,
-				errorElement: <ErrorBoundary />,
-				children: [
-					{
-						index: true,
-						element: <EventsPage />,
-						loader: getEvents,
-					},
-					{ path: "new", element: <NewEventPage />, action: newEventAction },
-					{
-						path: ":id",
-						loader: loaderEventsDetails,
-						id: "eventDetails",
-						children: [
-							{ index: true, element: <EventDetailPage /> },
-							{ path: "destroy", action: deleteRecordAction },
-							{ path: "edit", element: <EditEventPage />, action: editEventAction },
-						],
-					},
-				],
-			},
-		],
-	},
-])

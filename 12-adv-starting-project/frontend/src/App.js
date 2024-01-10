@@ -1,7 +1,7 @@
 // Challenge / Exercise
 
 import { RouterProvider } from "react-router-dom"
-import { routes } from "./Router/Routes"
+import { routes } from "."
 
 // 1. Add five new (dummy) page components (content can be simple <h1> elements)
 //    - HomePage

@@ -17,49 +17,8 @@ function EventForm({ method, event }) {
 		navigate(-1)
 	}
 
-	// const onSubmit = (e) => {
-	// 	e.preventDefault()
-	// 	const formData = new FormData(e.target)
-	// 	const data = Object.fromEntries(formData.entries())
-
-	// 	switch (method) {
-	// 		case "POST":
-	// 			postNewEvent(data)
-	// 			break
-	// 		case "PATCH":
-	// 			updateEvent(data)
-	// 			break
-	// 		default:
-	// 			break
-	// 	}
-	// }
-
-	// const postNewEvent = (data) => {
-	// 	fetch(`http://localhost:8080/events`, {
-	// 		method: "POST",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify(data),
-	// 	}).then(() => {
-	// 		navigate("..")
-	// 	})
-	// }
-
-	// const updateEvent = (data) => {
-	// 	fetch(`http://localhost:8080/events/${event.id}`, {
-	// 		method: "PATCH",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify(data),
-	// 	}).then(() => {
-	// 		navigate("..")
-	// 	})
-	// }
-
 	return (
-		<Form method={method} className={classes.form} >
+		<Form method={method} className={classes.form}>
 			<p>
 				<label htmlFor="title">Title</label>
 				<input id="title" type="text" name="title" required defaultValue={initialValues.title} />
