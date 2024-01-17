@@ -11,7 +11,7 @@ function EventItem({ event }) {
 			<menu className={classes.actions}>
 				<Link to="edit">Edit</Link>
 				<Form
-					method="post"
+					method="delete"
 					action="destroy"
 					onSubmit={(event) => {
 						if (!window.confirm("Please confirm you want to delete this record.")) {

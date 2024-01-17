@@ -42,15 +42,6 @@ export function EventDetailPage() {
 	)
 }
 
-// export const loaderEventsDetails = async ({ request, params }) => {
-// 	const response = await fetch(`http://localhost:8080/events/${params.id}`)
-// 	if (!response.ok) {
-// 		throw new Response(response.statusText, { status: response.status })
-// 	} else {
-// 		return response
-// 	}
-// }
-
 export async function deleteRecordAction({ params }) {
 	await fetch(`http://localhost:8080/events/${params.id}`, {
 		method: "DELETE",

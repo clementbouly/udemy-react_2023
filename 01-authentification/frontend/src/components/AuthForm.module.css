@@ -20,6 +20,7 @@
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .actions button {
@@ -32,7 +33,8 @@
   border: none;
 }
 
-.actions button[type='button'] {
+.actions a {
+  text-decoration: none;
   background-color: transparent;
   color: var(--color-gray-300);
 }
@@ -41,18 +43,6 @@
   background-color: var(--color-primary-300);
 }
 
-.actions button[type='button']:hover {
+.actions a:hover {
   background-color: var(--color-gray-800);
-}
-
-.actions button:disabled {
-  background-color: var(--color-gray-300);
-  color: var(--color-gray-800);
-  cursor: not-allowed;
-}
-
-.form_error {
-  color: var(--color-error);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
 }
