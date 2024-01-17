@@ -1,12 +1,1 @@
-{
-  "events": [
-    {
-      "title": "A new event",
-      "image": "https://cdn.muenchen-p.de/fl_progressive,q_65/.imaging/stk/responsive/teaser300/dms/va-2016/muenchner-christkindlmarkt/christkindlmarkt-marienplat-logo-hp/document/christkindlmarkt-marienplat-logo-hp.jpg",
-      "date": "2022-10-01",
-      "description": "Some awesome event!",
-      "id": "2a42fcc4-ea21-4bdd-abf6-c40006dc66a9"
-    }
-  ],
-  "users": []
-}
+{"events":[{"title":"test final","image":"https://picsum.photos/300/200","date":"1970-02-16","description":"Autem veritatis veni","id":"9e0b0b7a-28bb-4f74-8eb5-7206b5edd642"},{"title":"A new event","image":"https://cdn.muenchen-p.de/fl_progressive,q_65/.imaging/stk/responsive/teaser300/dms/va-2016/muenchner-christkindlmarkt/christkindlmarkt-marienplat-logo-hp/document/christkindlmarkt-marienplat-logo-hp.jpg","date":"2022-10-01","description":"Some awesome event!","id":"2a42fcc4-ea21-4bdd-abf6-c40006dc66a9"}],"users":[{"email":"test@test.test","password":"$2a$12$QrlEXHsFn2N422/0FZMRBeUNmOobpSc3Qjbs4SaphqUIoA0/E2VRu","isLogin":"false","id":"1a77e750-b92f-4c3f-8898-88112e3e5321"},{"email":"test@test.com","password":"$2a$12$ElbTGFHp9tIsF6E5cMX6LeGta8Du9J3yJ9/o6F/xUWN6HQE/kBNt.","id":"64ba17e5-1fc2-4c88-951d-c2459ed7cc2b"}]}
