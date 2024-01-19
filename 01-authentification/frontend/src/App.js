@@ -12,7 +12,7 @@ import NewEventPage from "./pages/NewEvent"
 import NewsletterPage, { action as newsletterAction } from "./pages/Newsletter"
 import RootLayout from "./pages/Root"
 
-const authLoader = async () => {
+const checkTokenValidyLoader = async () => {
 	const response = await fetch("http://localhost:8080/events/0/auth", {
 		headers: {
 			Authorization: "Bearer " + localStorage.getItem("token"),
@@ -24,13 +24,25 @@ const authLoader = async () => {
 	return true
 }
 
+const hasAccessLoader = async () => {
+	const response = await fetch("http://localhost:8080/events/0/auth", {
+		headers: {
+			Authorization: "Bearer " + localStorage.getItem("token"),
+		},
+	})
+	if (!response.ok) {
+		return redirect("/login")
+	}
+	return response
+}
+
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <RootLayout />,
 		errorElement: <ErrorPage />,
 		id: "auth",
-		loader: authLoader,
+		loader: checkTokenValidyLoader,
 		shouldRevalidate: ({ nextUrl }) => {
 			return nextUrl.pathname === "/events"
 		},
@@ -59,6 +71,7 @@ const router = createBrowserRouter([
 								path: "edit",
 								element: <EditEventPage />,
 								action: manipulateEventAction,
+								loader: hasAccessLoader,
 							},
 						],
 					},
@@ -66,6 +79,7 @@ const router = createBrowserRouter([
 						path: "new",
 						element: <NewEventPage />,
 						action: manipulateEventAction,
+						loader: hasAccessLoader,
 					},
 				],
 			},
