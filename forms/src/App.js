@@ -1,4 +1,6 @@
 import { Suspense, lazy, useState } from "react"
+import Parent from "./components/Parent"
+import { Parent2 } from "./components/Parent2"
 import SimpleInput from "./components/SimpleInput"
 
 function App() {
@@ -14,13 +16,13 @@ function App() {
 	}
 
 	const getPageContent = () => {
-    const LazyComp1 = lazy(() => import("./components/comp1"))
-    const LazyComp2 = lazy(() => import("./components/comp2"))
+		const LazyComp1 = lazy(() => import("./components/comp1"))
+		const LazyComp2 = lazy(() => import("./components/comp2"))
 		return (
 			<Suspense fallback={"loading"}>
 				{showComp1 && <LazyComp1 />}
 				{showComp2 && <LazyComp2 />}
-        {!showComp1 && !showComp2 && <h1>Nothing to see here</h1>}
+				{!showComp1 && !showComp2 && <h1>Nothing to see here</h1>}
 			</Suspense>
 		)
 	}
@@ -28,7 +30,7 @@ function App() {
 	return (
 		<div className={`app ${showComp1 ? "comp1" : ""} ${showComp2 ? "comp2" : ""}`}>
 			<SimpleInput />
-    
+
 			<h1>Lazy Loading Practice</h1>
 			<button className={`${showComp1 ? "off" : "on"}`} onClick={toggleComp1}>
 				Show Comp1
@@ -38,6 +40,8 @@ function App() {
 			</button>
 
 			{getPageContent()}
+			<Parent />
+			<Parent2 />
 		</div>
 	)
 }
